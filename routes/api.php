@@ -43,6 +43,8 @@ Route::middleware('guestOrAuth')->group(function () {
     Route::delete('/cart', [CartController::class, 'clearCart']);
     Route::post('/orders', [OrderController::class, 'store']);
     Route::get('/orders/{id}', [OrderController::class, 'show']);
+    Route::get('/user/orders', [OrderController::class, 'getUserOrders']);
+
 });
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -54,8 +56,8 @@ Route::post('/create-payment-intent', function (Request $request) {
 
     Stripe::setApiKey(env('STRIPE_SECRET'));
 
-    $amount = $request->input('amount'); // Amount in cents
-    $currency = 'usd'; // Example currency
+    $amount = $request->input('amount');
+    $currency = 'SAR';
 
     try {
         $paymentIntent = PaymentIntent::create([

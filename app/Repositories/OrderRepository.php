@@ -33,4 +33,17 @@ class OrderRepository
     {
         return Order::with(['items.product', 'shippingDetails', 'paymentDetails'])->findOrFail($id);
     }
+    public function findOrdersByUserOrGuest($userId, $guestToken)
+{
+    $query = Order::with(['items.product', 'shippingDetails', 'paymentDetails']);
+
+    if ($userId) {
+        $query->where('user_id', $userId);
+    } elseif ($guestToken) {
+        $query->where('guest_token', $guestToken);
+    }
+
+    return $query->get();
+}
+
 }

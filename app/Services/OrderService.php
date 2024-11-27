@@ -74,4 +74,13 @@ class OrderService
     {
         return $this->orderRepository->findById($id);
     }
+    public function getUserOrders($userId, $guestToken)
+{
+    if (!$userId && !$guestToken) {
+        return [];
+    }
+
+    return $this->orderRepository->findOrdersByUserOrGuest($userId, $guestToken);
+}
+
 }

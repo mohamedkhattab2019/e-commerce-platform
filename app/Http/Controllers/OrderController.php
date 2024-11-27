@@ -35,4 +35,12 @@ class OrderController extends Controller
         $order = $this->orderService->findOrderById($id);
         return new OrderResource($order);
     }
+    public function getUserOrders(Request $request)
+    {
+        $userId = $request->user_id ?? null;
+        $guestToken = $request->guest_token ?? null;
+
+        $orders = $this->orderService->getUserOrders($userId, $guestToken);
+        return OrderResource::collection($orders);
+    }
 }
